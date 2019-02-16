@@ -1,6 +1,7 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
+    <button v-on:click="foo">Load Data</button>
     <p>
       For a guide and recipes on how to configure / customize this project,<br>
       check out the
@@ -34,10 +35,17 @@
 </template>
 
 <script>
+//https://medium.com/vue-mastery/vuex-intro-tutorial-course-38ca0bca7ef4
 export default {
   name: 'HelloWorld',
   props: {
     msg: String
+  },
+  methods: {
+    foo: function() {
+      this.$store.dispatch('syncAll');
+      console.log(this.$store)
+    }
   }
 }
 </script>
