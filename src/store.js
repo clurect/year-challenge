@@ -46,6 +46,9 @@ export default new Vuex.Store({
         }
         ctx.commit('updateChallenges')
       }
+      else {
+        ctx.commit('updateChallenges')
+      }
 
     },
     subtractAll(ctx, data) {

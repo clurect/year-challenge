@@ -1,68 +1,50 @@
 <template>
-    <div>
-      <button class="btn btn-primary" data-toggle="modal" data-target="#newGameModal">Add a Game</button>
-        <!-- <button v-on:click="foo">Load Data</button> -->
-      <div id="accordion" class="accordion" data-accordion>
-        <div class="card" v-for="(item,index) in this.$store.state.challenges" :key="item.key">
-          <div class="card-header">
-            <h2 class="mb-0">
-              <button class="btn btn-link" type="button" data-toggle="collapse" :data-target="'#collapse-'+index" aria-expanded="true" aria-controls="collapseOne">
-                {{item.name}}
-              </button>
-            </h2>
-          </div>
-          <div class="collapse show" :id="'collapse-'+index" >
-            
-            <div class="card-body">
-              <Games v-bind:games="item.games"/>
-            </div>
-            
-          </div>
-        </div>
-        <!-- ... -->
+  <div class="container">
+    <span class="challenge-header">{{name}}</span>
+    <div class="row" v-for="type in challenge" :key="type.name">
+      <div class="col-sm text-left">
+        <span>{{type.name}}</span>
       </div>
-      <NewGameModal />
-      
-  
+      <div class="col-sm">
+        {{type.score}}
+      </div>
+      <div class="col-xs">
+        <button type="button" class="btn btn-success" v-on:click="increment(type)">+ Score</button>
+      </div>
+      <div>
+        <button type="button" class="btn btn-danger" v-on:click="decrement(type)">- Score</button>
+      </div>
     </div>
+
+  </div>
 </template>
 
 <script>
 //https://medium.com/vue-mastery/vuex-intro-tutorial-course-38ca0bca7ef4
-import {Bootstrap} from 'bootstrap'
-import Games from '@/components/Games.vue'
-import NewGameModal from '@/components/modals/NewGameModal.vue'
-import $ from 'jquery';
+// import {Bootstrap} from 'bootstrap'
+// import Games from '@/components/Games.vue'
+// import NewGameModal from '@/components/modals/NewGameModal.vue'
+// import $ from 'jquery';
 export default {
-  name: 'Challenges',
+  name: 'Challenge',
   props: {
-    msg: String
+    challenge: Array,
+    name: String
   },
   components: {
-    Games,
-    NewGameModal
   },
   methods: {
-    foo: function() {
-      this.$store.dispatch('syncAll');
-      console.log(this.$store)
+    increment: function(type) {
+        type.score++;
+        this.$store.dispatch('addAll',{doc:type,type:'types', name:type.name});
     },
-    incrementGame: function(game) {
-        game.wins++;
-        this.$store.dispatch('addAll',{doc:game,type:'games', name:game.name});
+    decrement: function(type) {
+        type.score--;
+        //this.$store.dispatch('subtractAll',{doc:type,type:'types', name:type.name});
     },
-    decrementGame: function(game) {
-        game.wins--;
-        this.$store.dispatch('subtractAll',{doc:game,type:'games', name:game.name});
-    }
   },
   mounted: function() {
-    console.log('ready!')
-    this.$store.dispatch('syncAll').then(() => {
-      console.log('hay')
-      console.log($('#accordion'))
-      //$('.collapse').collapse()
-    });
+
   }
 }
 </script>
@@ -70,17 +52,13 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 
-h3 {
-  margin: 40px 0 0;
+.row {
+  padding-bottom: 5px;
 }
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+.challenge-header {
+  font-size: 18px;
+  display: inline-block;
+  margin-bottom: 10px;
+  font-weight: bold;
 }
 </style>

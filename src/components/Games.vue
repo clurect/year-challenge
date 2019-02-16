@@ -1,9 +1,9 @@
 <template>
   <div class="container">
-    
+    <span class="challenge-header">Games</span>
     <div class="row" v-for="game in games" :key="game.name">
-      <div class="col-sm text-left">
-        <span>{{game.name}}</span>
+      <div class="col-sm">
+        <span class="game-name">{{game.name}}</span>
       </div>
       <div class="col-sm">
         {{game.wins}} / {{game.plays}}
@@ -30,7 +30,7 @@
 
 <script>
 //https://medium.com/vue-mastery/vuex-intro-tutorial-course-38ca0bca7ef4
-
+import {Bootstrap} from 'bootstrap'
 export default {
   name: 'Games',
   props: {
@@ -78,5 +78,19 @@ a {
 }
 .row {
   padding-bottom: 5px;
+}
+.challenge-header {
+  font-size: 18px;
+  display: inline-block;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+.game-name {
+  font-weight:bold;
+  
+  @media (min-width: 576px) {
+    font-size:16px;
+    text-align: left !important;
+  }
 }
 </style>
